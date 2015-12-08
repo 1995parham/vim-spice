@@ -128,7 +128,11 @@ if version >= 508 || !exists("did_spice_syntax_inits")
   HiLink spiceNumber		Number
   HiLink spiceComment		Comment
   HiLink spiceOperator		Operator
-  HiLink spiceElement           Type
+  HiLink spiceElement           Define
+  HiLink spiceAnal		Keyword		
+  HiLink spiceFunc		Function
+  HiLink spiceModel		Structure
+  HiLink spiceModelType		Type
 
   delcommand HiLink
 endif
