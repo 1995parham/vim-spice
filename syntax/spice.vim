@@ -64,7 +64,11 @@ syn match spiceElement "^d\S*"
 " Models
 " ======
 syn keyword spiceModel .model
-syn keyword spiceModelType nmos pmos NPN PNP D
+syn keyword spiceModelType nmos pmos nfet pfet NPN PNP D
+
+syn region  spiceMosfet matchgroup=spiceElement start="^m\S\+" end="nmos\|pmos\|nfet\|pfet" oneline keepend contains=CONTAINED,spiceNode
+syn match   spiceNode   /\(.\{-}\zs\S\+\)\{2}/ containedin=spiceMosfet contained
+
 
 " Analysis
 " ========
@@ -93,11 +97,15 @@ syn keyword spiceFunc pwl
 syn match   spiceWrapLineOperator       "\\$"
 syn match   spiceWrapLineOperator       "^+"
 
+" MOSFET WL
+syn match   spiceStatement      "W="
+syn match   spiceStatement      "L="
+
 syn match   spiceStatement      "^ \=\.\I\+"
 
 " Matching pairs of parentheses
 "==========================================
-syn region  spiceParen transparent matchgroup=spiceOperator start="(" end=")" contains=ALLBUT,spiceParenError
+syn region  spiceParen transparent matchgroup=spiceOperator start="(" end=")" contains=ALLBUT,spiceParenError,spiceNode
 syn region  spiceSinglequote matchgroup=spiceOperator start=+'+ end=+'+
 
 " Errors
@@ -133,6 +141,7 @@ if version >= 508 || !exists("did_spice_syntax_inits")
   HiLink spiceFunc		Function
   HiLink spiceModel		Structure
   HiLink spiceModelType		Type
+  HiLink spiceNode		Special
 
   delcommand HiLink
 endif
